@@ -14,3 +14,18 @@
   // should look as shown in assignment
   // Display the lists on sales.html. We will be adding features to this
   // application and working with its layout throughout the week.
+
+var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
+
+var PikePlaceMkt = {
+  locationName: 'Pike Place Market',
+  minCustomersPerHour: 23,
+  maxCustomersPerHour: 65,
+  avgCookiesPerCustomer: 6.3,
+  calcCustomersThisHour: function() {},
+  customersThisHour: [],
+  calculateCookiesEachHour: function() {},
+  cookiesEachHour: [],
+  render: function () {//stuff being added to the DOM, element.textContent etc}
+  }
+}
