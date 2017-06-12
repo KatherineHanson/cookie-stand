@@ -18,9 +18,9 @@
 
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 
-var myFavoriteUL = document.getElementById('PikePlaceMkt');
-
 var cookiesPerHour = [];
+
+var myFavoriteUL = document.getElementById('PikePlaceMkt');
 
 var PikePlaceMkt = {
   locationName: 'Pike Place Market',
@@ -35,12 +35,14 @@ var PikePlaceMkt = {
       cookiesPerHour.push(hours[i] + ': ' + (Math.floor(this.calcCustomersThisHour() * this.avgCookiesPerCustomer)));
     }
     return cookiesPerHour;
+  },
+  render: function () {//stuff being added to the DOM, element.textContent etc}
+    var cookies = document.getElementById('PikePlaceMkt');
+    cookies.textContent = 'Pike Place Market Cookie Sales';
+    for (var j = 0; j < 15; j++) {
+      var liEl = document.createElement('li');
+      liEl.textContent = this.calcCookiesEachHour()[j];
+      cookies.appendChild(liEl);
+    }
   }
-  // render: function () {//stuff being added to the DOM, element.textContent etc}
-  //   for (var j = 0; j < cookiesEachHour.length; j++) {
-  //     var liEl = document.createElement('li');
-  //     liEl.textContent = cookiesEachHour[i];
-  //     myFavoriteUL.appendChild(liEl);
-  //   }
-  // }
 };
