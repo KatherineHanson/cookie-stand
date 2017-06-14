@@ -3,13 +3,32 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <ul id="PikePlaceMkt"></ul>
-    <ul id="SeaTac"></ul>
-    <ul id="SeaCenter"></ul>
-    <ul id="CapHill"></ul>
-    <ul id="Alki"></ul>
+    <h1>Add/Update Shops</h1>
+
+    <form id="shop-form">
+      <fieldset>
+        <legend>Shop data submission form</legend>
+          <label for="locationName">Location Name: </label>
+          <input name="locationName" type="text" />
+
+          <label for="minCustomersPerHour">Min Customers/Hr: </label>
+          <input name="minCustomersPerHour" type="text" />
+
+          <label for="maxCustomersPerHour">Max Customers/Hr: </label>
+          <input name="maxCustomersPerHour" type="text" />
+
+          <label for="avgCookiesPerCustomer">Avg Cookies/Customer: </label>
+          <input name="avgCookiesPerCustomer" type="text" />
+
+          <button type="submit">Submit Shop</button>
+      </fieldset>
+    </form>
+
+    <table id="shops"></table>
+
     <script type='text/javascript'  src="app.js"></script>
   </body>
 </html>
