@@ -53,8 +53,6 @@ Shop.prototype.calcCookiesEachHour = function() {
 
 // CREATE TABLE HEADER
 function header() {
-//  <thead>             create thead
-  var theadEl = document.createElement('thead');
   // <tr>              create tr
   var trEl = document.createElement('tr');
   //   <th>blank space</th>   create a th, give it content, add it to tr
@@ -73,8 +71,6 @@ function header() {
   trEl.appendChild(thEl);
   // </tr>             add tr to the table
   theTable.appendChild(trEl);
-  // </thead>             add thead to the table
-  theTable.appendChild(theadEl);
 };
 
 // CREATE TABLE BODY
@@ -106,6 +102,32 @@ function renderAllShops() {
     allShops[i].render();
   }
 };
+
+// // CREATE TABLE FOOTER
+// function footer() {
+// //  <tfoot>             create tfoot
+//   var tfootEl = document.createElement('tfoot');
+//   // <tr>              create tr
+//   var trEl = document.createElement('tr');
+//   //   <th>blank space</th>   create a th, give it content, add it to tr
+//   var thEl = document.createElement('th');
+//   thEl.textContent = '';
+//   trEl.appendChild(thEl);
+//   // <th scope="col">time</th>  create a th, give it content, add it to tr
+//   for (k = 0; k < hours.length; k++) {
+//     var thEl = document.createElement('th');
+//     thEl.textContent = hours[k];
+//     trEl.appendChild(thEl);
+//   }
+//   //   <th>Daily Location Total</th>   create a th, give it content, add it to tr
+//   var thEl = document.createElement('th');
+//   thEl.textContent = 'Daily Location Total';
+//   trEl.appendChild(thEl);
+//   // </tr>             add tr to the table
+//   theTable.appendChild(trEl);
+//   // </thead>             add thead to the table
+//   theTable.appendChild(tfootEl);
+// };
 
 pikePlaceMkt = new Shop('1st and Pike', 23, 65, 6.3);
 seaTac = new Shop('SeaTac Airport', 3, 24, 1.2);
