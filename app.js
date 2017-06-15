@@ -5,7 +5,7 @@
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 var theTable = document.getElementById('shops');
 // For form submission
-var tableInput = document.getElementById('table-input');
+var formInput = document.getElementById('form-input');
 
 // CONSTRUCTOR FOR SHOPS
 function Shop(locationName, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer) {
@@ -23,7 +23,7 @@ Shop.prototype.calcCustomersThisHour = function() {
 
 Shop.prototype.calcCookiesEachHour = function() {
   for (var i = 0; i < hours.length; i++) {
-    var calcCustomersPerHour = this.calcCustomersThisHour();
+    var calcCustomersPerHour = this.calcCustomersThisHour();;
     // cookieValues = cookie sale numbers alone
     this.cookieValues.push(Math.ceil(calcCustomersPerHour * this.avgCookiesPerCustomer));
   }
@@ -33,7 +33,75 @@ Shop.prototype.calcCookiesEachHour = function() {
   this.cookieValues.push(totalPerDay);
 };
 
-//DATA RENDERING FUNCTION DECLARATIONS
+// Render table body
+Shop.prototype.render = function() {
+  this.calcCookiesEachHour();
+  // <tr>              create tr
+  var trEl = document.createElement('tr');
+  //  <th scope="row">location name</th>  create a th, give it content, add it to tr
+  var thEl = document.createElement('th');
+  thEl.textContent = this.locationName;
+  trEl.appendChild(thEl);
+  //      <td>number sold at each time</td> create a td, give it content, add it tr
+  for (var k = 0; (k < hours.length + 1); k++) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = this.cookieValues[k];
+    trEl.appendChild(tdEl);
+    // console.log('Hello!');
+  }
+  trEl.appendChild(tdEl);
+  // </tr>             add tr to the table
+  theTable.appendChild(trEl);
+};
+
+// Instantiate Shop objects and store in array
+Shop.all = [];
+new Shop('1st and Pike', 23, 65, 6.3);
+new Shop('SeaTac Airport', 3, 24, 1.2);
+new Shop('Seattle Center', 11, 38, 3.7);
+new Shop('Capitol Hill', 20, 38, 2.3);
+new Shop('Alki', 2, 16, 4.6);
+
+// This function is the event handler for the submission of shop data
+function handleShopDataSubmit(event) {
+  event.preventDefault();
+
+  var locationName = event.target.locationName.value;
+  var minCustomersPerHour = event.target.minCustomersPerHour.value;
+  var maxCustomersPerHour = event.target.maxCustomersPerHour.value;
+  var avgCookiesPerCustomer = event.target.avgCookiesPerCustomer.value;
+
+  for (var i = 0; i < Shop.all.length; i++){
+    if(locationName === Shop.all[i].locationName) {
+      // reassigning the starter properties
+      Shop.all[i].minCustomersPerHour = minCustomersPerHour;
+      Shop.all[i].maxCustomersPerHour = maxCustomersPerHour;
+      Shop.all[i].avgCookiesPerSale = avgCookiesPerCustomer;
+
+      // zeroing out the results of our calculations
+      Shop.all[i].calcCustomersThisHour = [];
+      Shop.all[i].totalPerDay = 0;
+      Shop.all[i].cookieValues = [];
+
+      // doing the calculations
+      Shop.all[i].calcCookiesEachHour();
+      clearForm();
+      renderTable();
+      return;
+    }
+  }
+
+  var newShop = new Shop(locationName,minCustomersPerHour,maxCustomersPerHour,avgCookiesPerCustomer);
+
+  function clearForm() {
+    event.target.locationName.value = null;
+    event.target.minCustomersPerHour.value = null;
+    event.target.maxCustomersPerHour.value = null;
+    event.target.avgCookiesPerSale.value = null;
+  };
+
+  renderAllShops();
+};
 
 // Create table header
 function makeHeader() {
@@ -57,27 +125,6 @@ function makeHeader() {
   theTable.appendChild(trEl);
 };
 
-// Create table body
-Shop.prototype.render = function() {
-  this.calcCookiesEachHour();
-  // <tr>              create tr
-  var trEl = document.createElement('tr');
-  //  <th scope="row">location name</th>  create a th, give it content, add it to tr
-  var thEl = document.createElement('th');
-  thEl.textContent = this.locationName;
-  trEl.appendChild(thEl);
-  //      <td>number sold at each time</td> create a td, give it content, add it tr
-  for (var k = 0; (k < hours.length + 1); k++) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = this.cookieValues[k];
-    trEl.appendChild(tdEl);
-    // console.log('Hello!');
-  }
-  trEl.appendChild(tdEl);
-  // </tr>             add tr to the table
-  theTable.appendChild(trEl);
-};
-
 // Create table footer
 function makeFooter() {
   var trEl = document.createElement('tr');
@@ -93,10 +140,7 @@ function makeFooter() {
     hourlyTotal = 0;
     for (var j = 0; j < Shop.all.length; j++){
       hourlyTotal += Shop.all[j].cookieValues[i];
-      // console.log('one hourly total', CookieStand.all[j].cookiesEachHour[i]);
-      // console.log('running total for this hour', hourlyTotal);
       totalOfTotals += Shop.all[j].cookieValues[i];
-      // console.log('total of totals', totalOfTotals);
     }
     thEl = document.createElement('th');
     thEl.textContent = hourlyTotal;
@@ -121,31 +165,8 @@ function renderAllShops() {
   makeFooter();
 };
 
-// Pass shops into Shop array
-Shop.all = [];
-new Shop('1st and Pike', 23, 65, 6.3);
-new Shop('SeaTac Airport', 3, 24, 1.2);
-new Shop('Seattle Center', 11, 38, 3.7);
-new Shop('Capitol Hill', 20, 38, 2.3);
-new Shop('Alki', 2, 16, 4.6);
-
-// This function is the event handler for the submission of shop data
-function handleShopDataSubmit(event) {
-  event.preventDefault();
-
-  var locationName = event.target.locationName.value;
-  var minCustomersPerHour = event.target.minCustomersPerHour.value;
-  var maxCustomersPerHour = event.target.maxCustomersPerHour.value;
-  var avgCookiesPerCustomer = event.target.avgCookiesPerCustomer.value;
-
-  var newShop = new Shop(locationName,minCustomersPerHour,maxCustomersPerHour,avgCookiesPerCustomer);
-  newShop.render();
-};
-
 // Event listener for shop data submission form
-tableInput.addEventListener('submit', handleShopDataSubmit);
+formInput.addEventListener('submit', handleShopDataSubmit);
 
-// Call functions
-// makeHeader();
+// Call table rendering function
 renderAllShops();
-// makeFooter();
