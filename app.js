@@ -3,7 +3,6 @@
 // GLOBAL VARIABLES
 // For creating table
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
-var allShops = [];
 var theTable = document.getElementById('shops');
 // For form submission
 var tableInput = document.getElementById('table-input');
@@ -15,7 +14,7 @@ function Shop(locationName, minCustomersPerHour, maxCustomersPerHour, avgCookies
   this.maxCustomersPerHour = maxCustomersPerHour;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
   this.cookieValues = [];
-  allShops.push(this);
+  Shop.all.push(this);
 }
 
 Shop.prototype.calcCustomersThisHour = function() {
@@ -37,7 +36,7 @@ Shop.prototype.calcCookiesEachHour = function() {
 //DATA RENDERING FUNCTION DECLARATIONS
 
 // Create table header
-function header() {
+function makeHeader() {
   // <tr>              create tr
   var trEl = document.createElement('tr');
   //   <th>blank space</th>   create a th, give it content, add it to tr
@@ -79,15 +78,32 @@ Shop.prototype.render = function() {
   theTable.appendChild(trEl);
 };
 
+// Create table footer
+function makeFooter() {
+  // <tr>              create tr
+  var trEl = document.createElement('tr');
+  //   <th>blank space</th>   create a th, give it content, add it to tr
+  var thEl = document.createElement('th');
+  thEl.textContent = 'Hourly Totals for All Locations';
+  trEl.appendChild(thEl);
+  // <th scope="col">time</th>  create a th, give it content, add it to tr
+  for (var k = 0; k < hours.length; k++) {
+    var thEl = document.createElement('th');
+    thEl.textContent = hours[k];
+    trEl.appendChild(thEl);
+  }
+};
+
 // This function gots through the array of shops and
 // calls the calcCookiesEachHour() and render() methods on each one
 function renderAllShops() {
-  for(var i = 0; i < allShops.length; i++){
-    allShops[i].render();
+  for(var i = 0; i < Shop.all.length; i++){
+    Shop.all[i].render();
   }
 };
 
 // Pass shops into Shop array
+Shop.all = [];
 new Shop('1st and Pike', 23, 65, 6.3);
 new Shop('SeaTac Airport', 3, 24, 1.2);
 new Shop('Seattle Center', 11, 38, 3.7);
@@ -111,5 +127,5 @@ function handleShopDataSubmit(event) {
 tableInput.addEventListener('submit', handleShopDataSubmit);
 
 // Call functions
-header();
+makeHeader();
 renderAllShops();
