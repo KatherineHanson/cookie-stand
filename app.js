@@ -80,26 +80,45 @@ Shop.prototype.render = function() {
 
 // Create table footer
 function makeFooter() {
-  // <tr>              create tr
   var trEl = document.createElement('tr');
-  //   <th>blank space</th>   create a th, give it content, add it to tr
+
   var thEl = document.createElement('th');
-  thEl.textContent = 'Hourly Totals for All Locations';
+  thEl.textContent = 'Hourly Totals for Each Location';
   trEl.appendChild(thEl);
-  // <th scope="col">time</th>  create a th, give it content, add it to tr
-  for (var k = 0; k < hours.length; k++) {
-    var thEl = document.createElement('th');
-    thEl.textContent = hours[k];
+
+  var totalOfTotals = 0;
+  var hourlyTotal = 0;
+
+  for (var i = 0; i < hours.length; i++) {
+    hourlyTotal = 0;
+    for (var j = 0; j < Shop.all.length; j++){
+      hourlyTotal += Shop.all[j].cookieValues[i];
+      // console.log('one hourly total', CookieStand.all[j].cookiesEachHour[i]);
+      // console.log('running total for this hour', hourlyTotal);
+      totalOfTotals += Shop.all[j].cookieValues[i];
+      // console.log('total of totals', totalOfTotals);
+    }
+    thEl = document.createElement('th');
+    thEl.textContent = hourlyTotal;
     trEl.appendChild(thEl);
   }
+
+  thEl = document.createElement('th');
+  thEl.textContent = totalOfTotals;
+  trEl.appendChild(thEl);
+
+  theTable.appendChild(trEl);
 };
 
 // This function gots through the array of shops and
 // calls the calcCookiesEachHour() and render() methods on each one
 function renderAllShops() {
+  theTable.innerHTML = '';
+  makeHeader();
   for(var i = 0; i < Shop.all.length; i++){
     Shop.all[i].render();
   }
+  makeFooter();
 };
 
 // Pass shops into Shop array
@@ -127,5 +146,6 @@ function handleShopDataSubmit(event) {
 tableInput.addEventListener('submit', handleShopDataSubmit);
 
 // Call functions
-makeHeader();
+// makeHeader();
 renderAllShops();
+// makeFooter();
