@@ -22,8 +22,9 @@ Shop.prototype.calcCustomersThisHour = function() {
 };
 
 Shop.prototype.calcCookiesEachHour = function() {
+  // console.log('TEST');
   for (var i = 0; i < hours.length; i++) {
-    var calcCustomersPerHour = this.calcCustomersThisHour();;
+    var calcCustomersPerHour = this.calcCustomersThisHour();
     // cookieValues = cookie sale numbers alone
     this.cookieValues.push(Math.ceil(calcCustomersPerHour * this.avgCookiesPerCustomer));
   }
@@ -76,17 +77,19 @@ function handleShopDataSubmit(event) {
       // reassigning the starter properties
       Shop.all[i].minCustomersPerHour = minCustomersPerHour;
       Shop.all[i].maxCustomersPerHour = maxCustomersPerHour;
-      Shop.all[i].avgCookiesPerSale = avgCookiesPerCustomer;
+      Shop.all[i].avgCookiesPerCustomer = avgCookiesPerCustomer;
 
       // zeroing out the results of our calculations
-      Shop.all[i].calcCustomersThisHour = [];
+      // Shop.all[i].calcCustomersThisHour = [];
       Shop.all[i].totalPerDay = 0;
       Shop.all[i].cookieValues = [];
 
       // doing the calculations
-      Shop.all[i].calcCookiesEachHour();
+      console.log('Hello');
+      // Shop.all[i].calcCookiesEachHour();
+      console.log('Bye');
       clearForm();
-      renderTable();
+      renderAllShops();
       return;
     }
   }
@@ -97,9 +100,9 @@ function handleShopDataSubmit(event) {
     event.target.locationName.value = null;
     event.target.minCustomersPerHour.value = null;
     event.target.maxCustomersPerHour.value = null;
-    event.target.avgCookiesPerSale.value = null;
+    event.target.avgCookiesPerCustomer.value = null;
   };
-
+  clearForm();
   renderAllShops();
 };
 
