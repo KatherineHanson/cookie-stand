@@ -51,7 +51,7 @@ a:-webkit-any-link {
 
 @media only screen and (max-width: 767px) and (min-width: 480px)
 responsive.css:1
-#top-page, header, #main {
+header, #main {
     position: relative;
     margin-left: 9%;
 }
@@ -59,19 +59,19 @@ responsive.css:1
 header {
     margin: 0px auto 0px auto;
     width: 1000px;
-    height: 117px;
+    height: 115px;
     position: relative;
     text-align: center;
     z-index: 5;
 }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, nav, section, summary {
-    display: block;
-}
-
 .cf:before, .cf:after {
     content: " ";
     display: table;
+}
+
+header, nav {
+    display: block;
 }
 
 header nav {
