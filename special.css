@@ -1,0 +1,19 @@
+* {
+  background-color: #FFF0F5;
+}
+
+input {
+  background-color: #FFF;
+}
+
+table, th, td {
+    border: 1px solid black;
+    background: #FFFAF0;
+}
+
+th, td {
+  padding: 5px 5px 5px 5px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: #483D8B;
+}
