@@ -10,9 +10,9 @@ var formInput = document.getElementById('form-input');
 // CONSTRUCTOR FOR SHOPS
 function Shop(locationName, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer) {
   this.locationName = locationName;
-  this.minCustomersPerHour = minCustomersPerHour;
-  this.maxCustomersPerHour = maxCustomersPerHour;
-  this.avgCookiesPerCustomer = avgCookiesPerCustomer;
+  this.minCustomersPerHour = parseInt(minCustomersPerHour);
+  this.maxCustomersPerHour = parseInt(maxCustomersPerHour);
+  this.avgCookiesPerCustomer = parseInt(avgCookiesPerCustomer);
   this.cookieValues = [];
   Shop.all.push(this);
 }
@@ -51,16 +51,10 @@ Shop.prototype.render = function() {
 
   //  <th scope="row">location name</th>  create a th, give it content, add it to tr
   makeElement('th', this.locationName, trEl);
-  // var thEl = document.createElement('th');
-  // thEl.textContent = this.locationName;
-  // trEl.appendChild(thEl);
   //      <td>number sold at each time</td> create a td, give it content, add it tr
   for (var k = 0; k < hours.length + 1; k++) {
-    console.log(this.cookieValues[k]);
+    // console.log(this.cookieValues[k]);
     makeElement('td', this.cookieValues[k], trEl);
-    // var tdEl = document.createElement('td');
-    // tdEl.textContent = this.cookieValues[k];
-    // trEl.appendChild(tdEl);
     // console.log('Hello!');
   }
   // trEl.appendChild(tdEl); SOURCE OF ERROR after using makeElement() in for loop
@@ -84,6 +78,16 @@ function handleShopDataSubmit(event) {
   var minCustomersPerHour = event.target.minCustomersPerHour.value;
   var maxCustomersPerHour = event.target.maxCustomersPerHour.value;
   var avgCookiesPerCustomer = event.target.avgCookiesPerCustomer.value;
+
+  // validate against over-long data submission
+  if(locationName.length > 50 || minCustomersPerHour.length > 3 || maxCustomersPerHour.length > 3 || avgCookiesPerCustomer.length > 3) {
+    return alert('That value is too long!');
+  }
+
+  // validate against minCustomersPerHour being larger than maxCustomersPerHour
+  if(minCustomersPerHour > maxCustomersPerHour) {
+    return alert('The minimum number of customers per hour must be less than or equal to the maximum number of customers per hour!');
+  }
 
   for (var i = 0; i < Shop.all.length; i++){
     if(locationName === Shop.all[i].locationName) {
@@ -125,21 +129,12 @@ function makeHeader() {
   var trEl = document.createElement('tr');
   //   <th>blank space</th>   create a th, give it content, add it to tr
   makeElement('th', '', trEl);
-  // var thEl = document.createElement('th');
-  // thEl.textContent = '';
-  // trEl.appendChild(thEl);
   // <th scope="col">time</th>  create a th, give it content, add it to tr
   for (var k = 0; k < hours.length; k++) {
     makeElement('th', hours[k], trEl);
-    // var thEl = document.createElement('th');
-    // thEl.textContent = hours[k];
-    // trEl.appendChild(thEl);
   }
   //   <th>Daily Location Total</th>   create a th, give it content, add it to tr
   makeElement('th', 'Daily Location Total', trEl);
-  // var thEl = document.createElement('th');
-  // thEl.textContent = 'Daily Location Total';
-  // trEl.appendChild(thEl);
   // </tr>             add tr to the table
   theTable.appendChild(trEl);
 };
@@ -149,9 +144,6 @@ function makeFooter() {
   var trEl = document.createElement('tr');
 
   makeElement('th', 'Hourly Totals for Each Location', trEl);
-  // var thEl = document.createElement('th');
-  // thEl.textContent = 'Hourly Totals for Each Location';
-  // trEl.appendChild(thEl);
 
   var totalOfTotals = 0;
   var hourlyTotal = 0;
@@ -163,15 +155,9 @@ function makeFooter() {
       totalOfTotals += Shop.all[j].cookieValues[i];
     }
     makeElement('th', hourlyTotal, trEl);
-    // thEl = document.createElement('th');
-    // thEl.textContent = hourlyTotal;
-    // trEl.appendChild(thEl);
   }
 
   makeElement('th', totalOfTotals, trEl);
-  // thEl = document.createElement('th');
-  // thEl.textContent = totalOfTotals;
-  // trEl.appendChild(thEl);
 
   theTable.appendChild(trEl);
 };
