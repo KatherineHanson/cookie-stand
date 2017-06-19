@@ -124,19 +124,22 @@ function makeHeader() {
   // <tr>              create tr
   var trEl = document.createElement('tr');
   //   <th>blank space</th>   create a th, give it content, add it to tr
-  var thEl = document.createElement('th');
-  thEl.textContent = '';
-  trEl.appendChild(thEl);
+  makeElement('th', '', trEl);
+  // var thEl = document.createElement('th');
+  // thEl.textContent = '';
+  // trEl.appendChild(thEl);
   // <th scope="col">time</th>  create a th, give it content, add it to tr
   for (var k = 0; k < hours.length; k++) {
-    var thEl = document.createElement('th');
-    thEl.textContent = hours[k];
-    trEl.appendChild(thEl);
+    makeElement('th', hours[k], trEl);
+    // var thEl = document.createElement('th');
+    // thEl.textContent = hours[k];
+    // trEl.appendChild(thEl);
   }
   //   <th>Daily Location Total</th>   create a th, give it content, add it to tr
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Daily Location Total';
-  trEl.appendChild(thEl);
+  makeElement('th', 'Daily Location Total', trEl);
+  // var thEl = document.createElement('th');
+  // thEl.textContent = 'Daily Location Total';
+  // trEl.appendChild(thEl);
   // </tr>             add tr to the table
   theTable.appendChild(trEl);
 };
@@ -145,10 +148,10 @@ function makeHeader() {
 function makeFooter() {
   var trEl = document.createElement('tr');
 
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Hourly Totals for Each Location';
-
-  trEl.appendChild(thEl);
+  makeElement('th', 'Hourly Totals for Each Location', trEl);
+  // var thEl = document.createElement('th');
+  // thEl.textContent = 'Hourly Totals for Each Location';
+  // trEl.appendChild(thEl);
 
   var totalOfTotals = 0;
   var hourlyTotal = 0;
@@ -159,14 +162,16 @@ function makeFooter() {
       hourlyTotal += Shop.all[j].cookieValues[i];
       totalOfTotals += Shop.all[j].cookieValues[i];
     }
-    thEl = document.createElement('th');
-    thEl.textContent = hourlyTotal;
-    trEl.appendChild(thEl);
+    makeElement('th', hourlyTotal, trEl);
+    // thEl = document.createElement('th');
+    // thEl.textContent = hourlyTotal;
+    // trEl.appendChild(thEl);
   }
 
-  thEl = document.createElement('th');
-  thEl.textContent = totalOfTotals;
-  trEl.appendChild(thEl);
+  makeElement('th', totalOfTotals, trEl);
+  // thEl = document.createElement('th');
+  // thEl.textContent = totalOfTotals;
+  // trEl.appendChild(thEl);
 
   theTable.appendChild(trEl);
 };
