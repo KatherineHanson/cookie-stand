@@ -34,23 +34,36 @@ Shop.prototype.calcCookiesEachHour = function() {
   this.cookieValues.push(totalPerDay);
 };
 
+function makeElement(elementType, content, parent) {
+  // create
+  var newEl = document.createElement(elementType);
+  // content
+  newEl.textContent = content;
+  // append
+  parent.appendChild(newEl);
+};
+
 // Render table body
 Shop.prototype.render = function() {
   this.calcCookiesEachHour();
   // <tr>              create tr
   var trEl = document.createElement('tr');
+
   //  <th scope="row">location name</th>  create a th, give it content, add it to tr
-  var thEl = document.createElement('th');
-  thEl.textContent = this.locationName;
-  trEl.appendChild(thEl);
+  makeElement('th', this.locationName, trEl);
+  // var thEl = document.createElement('th');
+  // thEl.textContent = this.locationName;
+  // trEl.appendChild(thEl);
   //      <td>number sold at each time</td> create a td, give it content, add it tr
-  for (var k = 0; (k < hours.length + 1); k++) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = this.cookieValues[k];
-    trEl.appendChild(tdEl);
+  for (var k = 0; k < hours.length + 1; k++) {
+    console.log(this.cookieValues[k]);
+    makeElement('td', this.cookieValues[k], trEl);
+    // var tdEl = document.createElement('td');
+    // tdEl.textContent = this.cookieValues[k];
+    // trEl.appendChild(tdEl);
     // console.log('Hello!');
   }
-  trEl.appendChild(tdEl);
+  // trEl.appendChild(tdEl); SOURCE OF ERROR after using makeElement() in for loop
   // </tr>             add tr to the table
   theTable.appendChild(trEl);
 };
@@ -89,7 +102,7 @@ function handleShopDataSubmit(event) {
       // Shop.all[i].calcCookiesEachHour();
       console.log('Bye');
       clearForm();
-      renderAllShops();
+      init();
       return;
     }
   }
@@ -103,7 +116,7 @@ function handleShopDataSubmit(event) {
     event.target.avgCookiesPerCustomer.value = null;
   };
   clearForm();
-  renderAllShops();
+  init();
 };
 
 // Create table header
@@ -134,6 +147,7 @@ function makeFooter() {
 
   var thEl = document.createElement('th');
   thEl.textContent = 'Hourly Totals for Each Location';
+
   trEl.appendChild(thEl);
 
   var totalOfTotals = 0;
@@ -159,7 +173,7 @@ function makeFooter() {
 
 // This function gots through the array of shops and
 // calls the calcCookiesEachHour() and render() methods on each one
-function renderAllShops() {
+function init() {
   theTable.innerHTML = '';
   makeHeader();
   for(var i = 0; i < Shop.all.length; i++){
@@ -172,4 +186,4 @@ function renderAllShops() {
 formInput.addEventListener('submit', handleShopDataSubmit);
 
 // Call table rendering function
-renderAllShops();
+init();
